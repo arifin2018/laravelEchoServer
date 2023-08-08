@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ChatController;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -19,14 +21,21 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-
-Route::get('/',function(){
-    return 'ok';
+Route::post('/',function(){
+    return 'hai';
 });
 
 Route::post('register',[AuthController::class, 'register'])->name('auth.register');
 Route::post('login',[AuthController::class, 'login'])->name('auth.login');
 
-Route::group(['middleware' => 'auth:api','prefix' => 'auth'],function(){
+Route::group(['middleware' => 'auth:api'],function(){
+    Route::post('/chat/{user:id}',[ChatController::class, 'store']);
+
+    Route::get('/chat/{id}',function(User $id){
+        dd($id);
+    });
+});
+
+Route::prefix('auth',function(){
     Route::post('logout',[AuthController::class, 'logout'])->name('auth.logout');
 });
