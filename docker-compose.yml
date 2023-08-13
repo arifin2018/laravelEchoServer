@@ -1,0 +1,58 @@
+version: "3.8"
+
+services:
+    webserver:
+        image: nginx:alpine
+        container_name: webserver
+        restart: unless-stopped
+        tty: true
+        ports:
+            - "80:80"
+            - "443:443"
+        volumes:
+            - ./:/var/www/laravel_docker
+            - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
+        networks:
+            - app-network
+        links:
+            - php-fpm
+
+    database:
+        image: postgres
+        container_name: database
+        restart: unless-stopped
+        environment:
+            POSTGRES_PASSWORD: secret
+            POSTGRES_DB: laravel_echo_server
+        volumes:
+            - ./docker/postgres-data:/var/lib/postgresql/data
+        ports:
+            - "54320:5432"
+        networks:
+            - app-network
+
+    php-fpm:
+        container_name: php-fpm
+        build:
+            context: .
+            dockerfile: Dockerfile
+        volumes:
+            - .:/var/www/laravel_docker
+            - ./docker/php/8.2/php.ini:/usr/local/etc/php/php.ini-production
+        depends_on:
+            - database
+        environment:
+            - PHP_DATE_TIMEZONE=Asia/Jakarta
+            - PHP_DISPLAY_ERRORS=On
+            - PHP_MEMORY_LIMIT=2560M
+            - PHP_MAX_EXECUTION_TIME=600
+            - PHP_POST_MAX_SIZE=500M
+            - PHP_UPLOAD_MAX_FILESIZE=500M
+        networks:
+            - app-network
+        links:
+            - database
+
+networks:
+    app-network:
+        driver: bridge
