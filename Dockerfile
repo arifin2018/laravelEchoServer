@@ -31,9 +31,9 @@ RUN set -eux; \
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 RUN docker-php-ext-install \
-        gd xdebug pdo pdo_pgsql pdo_mysql \
+        gd pdo pdo_pgsql pdo_mysql \
     && docker-php-ext-enable \
-        gd xdebug pdo pdo_pgsql pdo_mysql
+        gd pdo pdo_pgsql pdo_mysql
 
 RUN usermod -u 1000 www-data
 RUN rm -rf /var/cache/apk/*
