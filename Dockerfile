@@ -52,7 +52,7 @@ RUN rm -rf /var/cache/apk/*
 COPY --chown=www-data:www-data . /var/www/laravel_docker
 USER www-data
 
-EXPOSE 9000
+EXPOSE 9123
 CMD ["php-fpm"]
 
 

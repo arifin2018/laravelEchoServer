@@ -7,8 +7,8 @@ services:
         restart: unless-stopped
         tty: true
         ports:
-            - "80:80"
-            - "443:443"
+            - "8012:80"
+            - "4431:443"
         volumes:
             - ./:/var/www/laravel_docker
             - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
