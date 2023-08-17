@@ -6,6 +6,10 @@ RUN set -eux; \
     apt-get update; \
     apt-get upgrade -y; \
     apt-get install -y --no-install-recommends \
+	    libzip-dev \
+	    zip \
+	    git \
+	    zlib1g-dev \
             curl \
             libmemcached-dev \
             libz-dev \
@@ -31,13 +35,17 @@ RUN set -eux; \
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 RUN docker-php-ext-install \
-        gd pdo pdo_pgsql pdo_mysql \
+        gd pdo pdo_pgsql pdo_mysql zip \
     && docker-php-ext-enable \
-        gd pdo pdo_pgsql pdo_mysql
-
+        gd pdo pdo_pgsql pdo_mysql zip
 RUN usermod -u 1000 www-data
 RUN rm -rf /var/cache/apk/*
-COPY --chown=www-data:www-data . /var/www/laravel_docker
+#COPY --chown=www-data:www-data . /var/www/laravel_docker
+ADD . /var/www/laravel_docker
+RUN chown -R www-data:www-data /var/www/laravel_docker
+RUN chmod -R 777 /var/www/laravel_docker
+RUN composer install
+
 USER www-data
 
 EXPOSE 9000
