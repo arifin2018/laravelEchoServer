@@ -23,6 +23,10 @@ class SendMessage implements ShouldBroadcast
         $this->dataMessage = $dataMessage;
     }
 
+    public function broadcastAs(): String {
+        return 'server.sendMessage';
+    }
+
     /**
      * Get the channels the event should broadcast on.
      *
