@@ -42,7 +42,8 @@ class AuthController extends Controller
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
-        return $this->respondWithToken($token, Response::HTTP_ACCEPTED);
+
+        return $this->respondWithToken($token, Response::HTTP_ACCEPTED,auth()->guard()->user());
     }
 
     /**
@@ -52,11 +53,12 @@ class AuthController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    protected function respondWithToken($token, int $response = 200):JsonResponse
+    protected function respondWithToken($token, int $response = 200, object $user):JsonResponse
     {
         return response()->json([
             'access_token' => $token,
             'token_type' => 'bearer',
+            'user' => $user,
             'expires_in' => auth()->factory()->getTTL() * 60
         ], $response);
     }
