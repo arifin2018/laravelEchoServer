@@ -12,8 +12,11 @@ use Illuminate\Support\Facades\Redis;
 
 class ChatController extends Controller
 {
-    public function index(Request $request) {
-
+    public function index(Request $request, User $user) {
+        dd(Chat::all());
+        return response()->json([
+            'user'=>$user
+        ]);
     }
 
     public function store(Request $request, User $user) {
@@ -26,7 +29,7 @@ class ChatController extends Controller
             'message'=>$request->message
         ];
 
-        // Chat::create($dataMessage);
+        Chat::create($dataMessage);
         broadcast(new SendMessage($dataMessage));
         // broadcast(new Message('arifin'));
         // event(new SendMessage($dataMessage));
