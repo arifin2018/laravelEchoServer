@@ -13,9 +13,17 @@ use Illuminate\Support\Facades\Redis;
 class ChatController extends Controller
 {
     public function index(Request $request, User $user) {
-        dd(Chat::all());
+        $chat = Chat::where([
+            'receiver_id'=>$user->id,
+            'sender_id'=>Auth::user()->id
+        ])->orWhere([
+            'receiver_id'=>Auth::user()->id,
+            'sender_id'=>$user->id
+        ])
+        ->get();
         return response()->json([
-            'user'=>$user
+            'user'=>$user,
+            'message'=> $chat
         ]);
     }
 
