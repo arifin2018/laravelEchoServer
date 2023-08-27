@@ -32,7 +32,7 @@ Route::post('login',[AuthController::class, 'login'])->name('auth.login');
 
 Route::group(['middleware' => 'auth:api'],function(){
     Route::post('/chat/{user:id}',[ChatController::class, 'store']);
-
+    Route::get('/user',[AuthController::class, 'user'])->name('auth.user');
     Route::get('/chat/{id}',function(User $id){
         dd($id);
     });

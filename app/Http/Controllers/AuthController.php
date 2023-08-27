@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
 
@@ -61,5 +62,18 @@ class AuthController extends Controller
             'user' => $user,
             'expires_in' => auth()->factory()->getTTL() * 60
         ], $response);
+    }
+
+    public function user():JsonResponse {
+        $user = User::all();
+        $userData = [];
+        foreach ($user as $key => $value) {
+            if ($value['id'] != Auth::user()->id) {
+                $userData[] = $value;
+            }
+        }
+        return response()->json([
+            'user'=>$userData
+        ]);
     }
 }
