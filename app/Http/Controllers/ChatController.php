@@ -20,7 +20,6 @@ class ChatController extends Controller
             ['receiver_id' ,'=',Auth::user()->id],
             ['sender_id' ,'=',$user->id]
         ])->get();
-        dd($chat);
         return response()->json([
             'user'=>$user,
             'message'=> $chat
