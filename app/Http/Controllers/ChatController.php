@@ -14,13 +14,13 @@ class ChatController extends Controller
 {
     public function index(Request $request, User $user) {
         $chat = Chat::where([
-            'receiver_id'=>$user->id,
-            'sender_id'=>Auth::user()->id
+            ['receiver_id' ,'=',$user->id],
+            ['sender_id' ,'=',Auth::user()->id]
         ])->orWhere([
-            'receiver_id'=>Auth::user()->id,
-            'sender_id'=>$user->id
-        ])
-        ->get();
+            ['receiver_id' ,'=',Auth::user()->id],
+            ['sender_id' ,'=',$user->id]
+        ])->get();
+        dd($chat);
         return response()->json([
             'user'=>$user,
             'message'=> $chat
