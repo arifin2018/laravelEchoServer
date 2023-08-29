@@ -19,9 +19,9 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['localhost:3000','localhost:*','http://localhost:3000'],
+    'allowed_origins' => ['localhost:3000','localhost:*','http://localhost:3000','http://localhost:3002','localhost:3002'],
 
-    'allowed_origins_patterns' => ['*'],
+    'allowed_origins_patterns' => [],
 
     'allowed_headers' => ['*'],
 
@@ -29,6 +29,6 @@ return [
 
     'max_age' => 0,
 
-    'supports_credentials' => false,
+    'supports_credentials' => true,
 
 ];
