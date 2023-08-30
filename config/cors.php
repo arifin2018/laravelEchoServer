@@ -19,7 +19,15 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['localhost:3000','localhost:*','http://localhost:3000','http://localhost:3002','localhost:3002'],
+    'allowed_origins' => [
+			'localhost:3000',
+			'localhost:*',
+			'http://localhost:3000',
+			'http://localhost:3002',
+			'localhost:3002',
+			'https://arifin-chatting.vercel.app',
+			'arifin-chatting.vercel.app'
+			],
 
     'allowed_origins_patterns' => [],
 

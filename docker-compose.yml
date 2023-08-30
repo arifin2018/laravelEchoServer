@@ -16,6 +16,9 @@ services:
             - app-network
         links:
             - php-fpm
+	environment:
+		- VIRTUAL_PORT=80
+		- VIRTUAL_HOST=backend.arifinportfolio.my.id
 
     database:
         image: postgres
