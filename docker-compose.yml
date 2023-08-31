@@ -18,7 +18,7 @@ services:
             - app-network
         links:
             - php-fpm
-        command: '/bin/sh -c ''while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g "daemon off;"'''
+        command: "nginx -s reload"
 
     certbot:
         image: certbot/certbot
