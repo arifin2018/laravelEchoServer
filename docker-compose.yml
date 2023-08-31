@@ -12,8 +12,10 @@ services:
         volumes:
             - ./:/var/www/laravel_docker
             - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
-            - ./docker/certbot/conf:/etc/letsencrypt
-            - ./docker/certbot/www:/var/www/certbot
+            # - ./docker/certbot/conf:/etc/letsencrypt
+            # - ./docker/certbot/www:/var/www/certbot
+            - ./etc/letsencrypt/live/backend.arifinportfolio.my.id:/etc/letsencrypt
+            - ./etc/letsencrypt/live/backend.arifinportfolio.my.id:/var/www/certbot
         networks:
             - app-network
         links:
