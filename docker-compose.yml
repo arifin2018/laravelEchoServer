@@ -29,9 +29,9 @@ services:
             - ./certbot/etc:/etc/letsencrypt
             - ./certbot/lib:/var/lib/letsencrypt
             - ./certbot/www:/var/www/html
-        command: certonly --webroot --webroot-path=/var/www/html --email your_email@example.com --agree-tos -d your_domain.com
+        command: certonly --webroot --webroot-path=/var/www/html --email arifin@lenna.ai --agree-tos -d backend.arifinportfolio.my.id
         depends_on:
-            - nginx
+            - webserver
         networks:
             - app-network
 
