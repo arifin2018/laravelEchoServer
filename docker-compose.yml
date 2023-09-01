@@ -29,7 +29,7 @@ services:
             - ./certbot/etc:/etc/letsencrypt
             - ./certbot/lib:/var/lib/letsencrypt
             - ./certbot/www:/var/www/html
-        command: certonly --webroot --webroot-path=/var/www/laravel_docker --email arifin@lenna.ai --agree-tos -d backend.arifinportfolio.my.id
+        command: certonly --webroot --webroot-path=/var/www/html --email arifin@lenna.ai --agree-tos -d backend.arifinportfolio.my.id
         depends_on:
             - webserver
         networks:
