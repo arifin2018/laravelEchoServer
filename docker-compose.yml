@@ -12,23 +12,28 @@ services:
         volumes:
             - ./:/var/www/laravel_docker
             - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
-            - ./docker/certbot/conf:/etc/letsencrypt
-            - ./docker/certbot/www:/var/www/certbot
+            - ./certbot/etc:/etc/letsencrypt
+            # - ./docker/certbot/conf:/etc/letsencrypt
+            # - ./docker/certbot/www:/var/www/certbot
             # - ./etc/letsencrypt/live/backend.arifinportfolio.my.id:/etc/letsencrypt
             # - ./etc/letsencrypt/live/backend.arifinportfolio.my.id:/var/www/certbot
         networks:
             - app-network
         links:
             - php-fpm
-        command: '/bin/sh -c ''while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g "daemon off;"'''
 
     certbot:
         image: certbot/certbot
         restart: unless-stopped
         volumes:
-            - ./docker/certbot/conf:/etc/letsencrypt
-            - ./docker/certbot/www:/var/www/certbot
-        entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+            - ./certbot/etc:/etc/letsencrypt
+            - ./certbot/lib:/var/lib/letsencrypt
+            - ./certbot/www:/var/www/html
+        command: certonly --webroot --webroot-path=/var/www/html --email your_email@example.com --agree-tos -d your_domain.com
+        depends_on:
+            - nginx
+        networks:
+            - app-network
 
     database:
         image: postgres
