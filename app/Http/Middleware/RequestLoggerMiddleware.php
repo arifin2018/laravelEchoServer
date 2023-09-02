@@ -16,11 +16,18 @@ class RequestLoggerMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $this->Logging($request);
-        return $next($request);
+        $response= $next($request);
+        $this->Logging($request, $response);
+        return $response;
     }
 
-    private function Logging(Request $request):void {
-        Log::info(json_encode($request));
+    private function Logging(Request $request, Response $response):void {
+        $log = [
+            'URI' => $request->getUri(),
+            'METHOD' => $request->getMethod(),
+            'REQUEST_BODY' => $request->all(),
+            'RESPONSE' => $response->getContent()
+        ];
+        Log::info(json_encode($log));
     }
 }
