@@ -8,7 +8,7 @@ services:
         tty: true
         ports:
             - "8012:80"
-            - "4431:443"
+            # - "4431:443"
         volumes:
             - ./:/var/www/laravel_docker
             - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
@@ -29,21 +29,21 @@ services:
         links:
             - php-fpm
 
-    certbot:
-        image: certbot/certbot
-        restart: unless-stopped
-        container_name: certbot
-        volumes:
-            - ./docker/certbot/conf:/etc/letsencrypt
-            - ./docker/certbot/logs:/var/log/letsencrypt
-            - ./docker/certbot/lib:/var/lib/letsencrypt
-            - ./docker/certbot/data:/var/www/certbot
-        # command: certonly --webroot --webroot-path=/var/www/html --email arifin@lenna.ai --agree-tos -d backend.arifinportfolio.my.id
-        command: certonly --nginx --webroot --webroot-path=/var/www/certbot --email arifin@lenna.ai --agree-tos --no-eff-email -d backend.arifinportfolio.my.id
-        # depends_on:
-        #     - webserver
-        networks:
-            - app-network
+    # certbot:
+    #     image: certbot/certbot
+    #     restart: unless-stopped
+    #     container_name: certbot
+    #     volumes:
+    #         - ./docker/certbot/conf:/etc/letsencrypt
+    #         - ./docker/certbot/logs:/var/log/letsencrypt
+    #         - ./docker/certbot/lib:/var/lib/letsencrypt
+    #         - ./docker/certbot/data:/var/www/certbot
+    #     # command: certonly --webroot --webroot-path=/var/www/html --email arifin@lenna.ai --agree-tos -d backend.arifinportfolio.my.id
+    #     command: certonly --nginx --webroot --webroot-path=/var/www/certbot --email arifin@lenna.ai --agree-tos --no-eff-email -d backend.arifinportfolio.my.id
+    #     # depends_on:
+    #     #     - webserver
+    #     networks:
+    #         - app-network
 
     database:
         image: postgres
