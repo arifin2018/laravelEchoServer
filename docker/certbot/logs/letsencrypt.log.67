@@ -1,0 +1,23 @@
+2023-09-02 05:33:11,215:DEBUG:certbot._internal.main:certbot version: 2.6.0
+2023-09-02 05:33:11,215:DEBUG:certbot._internal.main:Location of certbot entry point: /usr/local/bin/certbot
+2023-09-02 05:33:11,215:DEBUG:certbot._internal.main:Arguments: ['--nginx', '--webroot', '--webroot-path=/var/www/certbot', '--email', 'arifin@lenna.ai', '--agree-tos', '--no-eff-email', '-d', 'backend.arifinportfolio.my.id']
+2023-09-02 05:33:11,215:DEBUG:certbot._internal.main:Discovered plugins: PluginsRegistry(PluginEntryPoint#manual,PluginEntryPoint#null,PluginEntryPoint#standalone,PluginEntryPoint#webroot)
+2023-09-02 05:33:11,296:DEBUG:certbot._internal.log:Root logging level set at 30
+2023-09-02 05:33:11,297:DEBUG:certbot._internal.log:Exiting abnormally:
+Traceback (most recent call last):
+  File "/usr/local/bin/certbot", line 33, in <module>
+    sys.exit(load_entry_point('certbot', 'console_scripts', 'certbot')())
+  File "/opt/certbot/src/certbot/certbot/main.py", line 19, in main
+    return internal_main.main(cli_args)
+  File "/opt/certbot/src/certbot/certbot/_internal/main.py", line 1864, in main
+    return config.func(config, plugins)
+  File "/opt/certbot/src/certbot/certbot/_internal/main.py", line 1578, in certonly
+    installer, auth = plug_sel.choose_configurator_plugins(config, plugins, "certonly")
+  File "/opt/certbot/src/certbot/certbot/_internal/plugins/selection.py", line 209, in choose_configurator_plugins
+    req_auth, req_inst = cli_plugin_requests(config)
+  File "/opt/certbot/src/certbot/certbot/_internal/plugins/selection.py", line 313, in cli_plugin_requests
+    req_auth = set_configurator(req_auth, "webroot")
+  File "/opt/certbot/src/certbot/certbot/_internal/plugins/selection.py", line 288, in set_configurator
+    raise errors.PluginSelectionError(msg.format(repr(previously), repr(now)))
+certbot.errors.PluginSelectionError: Too many flags setting configurators/installers/authenticators 'nginx' -> 'webroot'
+2023-09-02 05:33:11,299:ERROR:certbot._internal.log:Too many flags setting configurators/installers/authenticators 'nginx' -> 'webroot'
