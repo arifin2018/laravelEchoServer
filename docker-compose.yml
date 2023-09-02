@@ -12,7 +12,9 @@ services:
         volumes:
             - ./:/var/www/laravel_docker
             - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
-            - ./certbot/etc:/etc/letsencrypt
+            - ./docker/certbot/etc:/etc/letsencrypt
+            - ./docker/certbot/conf:/etc/nginx/ssl
+            - ./docker/certbot/data:/var/www/certbot
             # - ./docker/certbot/conf:/etc/letsencrypt
             # - ./docker/certbot/www:/var/www/certbot
             # - ./etc/letsencrypt/live/backend.arifinportfolio.my.id:/etc/letsencrypt
@@ -26,10 +28,12 @@ services:
         image: certbot/certbot
         restart: unless-stopped
         volumes:
-            - ./certbot/etc:/etc/letsencrypt
-            - ./certbot/lib:/var/lib/letsencrypt
-            - ./certbot/www:/var/www/html
-        command: certonly --webroot --webroot-path=/var/www/html --email arifin@lenna.ai --agree-tos -d backend.arifinportfolio.my.id
+            - ./docker/certbot/conf:/etc/letsencrypt
+            - ./docker/certbot/logs:/var/log/letsencrypt
+            - ./docker/certbot/lib:/var/lib/letsencrypt
+            - ./docker/certbot/data:/var/www/html
+        # command: certonly --webroot --webroot-path=/var/www/html --email arifin@lenna.ai --agree-tos -d backend.arifinportfolio.my.id
+        command: certonly --webroot --webroot-path=/var/www/certbot --email arifin@lenna.ai --agree-tos --no-eff-email -d backend.arifinportfolio.my.id
         depends_on:
             - webserver
         networks:
