@@ -16,34 +16,10 @@ services:
             - ./docker/certbot/conf:/etc/nginx/ssl
             - ./docker/certbot/data:/var/www/certbot
             - ./init-letsencrypt.sh:/var/www/certbot
-            # - ./docker/certbot/conf:/etc/letsencrypt
-            # - ./docker/certbot/www:/var/www/certbot
-            # - ./etc/letsencrypt/live/backend.arifinportfolio.my.id:/etc/letsencrypt
-            # - ./etc/letsencrypt/live/backend.arifinportfolio.my.id:/var/www/certbot
-        # command:
-        #     - chmod 777 -rf /var/www/certbot;
-        #     - /var/www/certbot
-        #     - ./init-letsencrypt.sh
         networks:
             - app-network
         links:
             - php-fpm
-
-    # certbot:
-    #     image: certbot/certbot
-    #     restart: unless-stopped
-    #     container_name: certbot
-    #     volumes:
-    #         - ./docker/certbot/conf:/etc/letsencrypt
-    #         - ./docker/certbot/logs:/var/log/letsencrypt
-    #         - ./docker/certbot/lib:/var/lib/letsencrypt
-    #         - ./docker/certbot/data:/var/www/certbot
-    #     # command: certonly --webroot --webroot-path=/var/www/html --email arifin@lenna.ai --agree-tos -d backend.arifinportfolio.my.id
-    #     command: certonly --nginx --webroot --webroot-path=/var/www/certbot --email arifin@lenna.ai --agree-tos --no-eff-email -d backend.arifinportfolio.my.id
-    #     # depends_on:
-    #     #     - webserver
-    #     networks:
-    #         - app-network
 
     database:
         image: postgres
