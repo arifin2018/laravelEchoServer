@@ -20,10 +20,10 @@ services:
             # - ./docker/certbot/www:/var/www/certbot
             # - ./etc/letsencrypt/live/backend.arifinportfolio.my.id:/etc/letsencrypt
             # - ./etc/letsencrypt/live/backend.arifinportfolio.my.id:/var/www/certbot
-        command:
-            - chmod 777 -rf /var/www/certbot;
-            - /var/www/certbot
-            - ./init-letsencrypt.sh
+        # command:
+        #     - chmod 777 -rf /var/www/certbot;
+        #     - /var/www/certbot
+        #     - ./init-letsencrypt.sh
         networks:
             - app-network
         links:
