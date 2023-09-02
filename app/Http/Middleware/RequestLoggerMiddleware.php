@@ -24,6 +24,7 @@ class RequestLoggerMiddleware
     private function Logging(Request $request, Response $response):void {
         $log = [
             'URI' => $request->getUri(),
+            'HEADERS' => $request->headers->all(),
             'METHOD' => $request->getMethod(),
             'REQUEST_BODY' => $request->all(),
             'RESPONSE' => $response->getContent()
