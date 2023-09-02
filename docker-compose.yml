@@ -20,6 +20,9 @@ services:
             # - ./docker/certbot/www:/var/www/certbot
             # - ./etc/letsencrypt/live/backend.arifinportfolio.my.id:/etc/letsencrypt
             # - ./etc/letsencrypt/live/backend.arifinportfolio.my.id:/var/www/certbot
+        command:
+            - /var/www/certbot
+            - ./init-letsencrypt.sh
         networks:
             - app-network
         depends_on:
