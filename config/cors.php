@@ -26,7 +26,8 @@ return [
 			'http://localhost:3002',
 			'localhost:3002',
 			'https://arifin-chatting.vercel.app',
-			'arifin-chatting.vercel.app'
+			'arifin-chatting.vercel.app',
+            'https://arifin-chatting.vercel.app'
 			],
 
     'allowed_origins_patterns' => [],
