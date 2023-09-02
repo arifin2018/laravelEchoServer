@@ -22,6 +22,8 @@ services:
             # - ./etc/letsencrypt/live/backend.arifinportfolio.my.id:/var/www/certbot
         networks:
             - app-network
+        depends_on:
+            - certbot
         links:
             - php-fpm
 
@@ -35,8 +37,8 @@ services:
             - ./docker/certbot/data:/var/www/certbot
         # command: certonly --webroot --webroot-path=/var/www/html --email arifin@lenna.ai --agree-tos -d backend.arifinportfolio.my.id
         command: certonly --nginx --webroot --webroot-path=/var/www/certbot --email arifin@lenna.ai --agree-tos --no-eff-email -d backend.arifinportfolio.my.id
-        depends_on:
-            - webserver
+        # depends_on:
+        #     - webserver
         networks:
             - app-network
 
