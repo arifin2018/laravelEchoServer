@@ -8,7 +8,7 @@ services:
         tty: true
         ports:
             - "8012:80"
-            # - "4431:443"
+            - "4431:443"
         volumes:
             - ./:/var/www/laravel_docker
             - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
