@@ -15,6 +15,7 @@ services:
             - ./docker/certbot/etc:/etc/letsencrypt
             - ./docker/certbot/conf:/etc/nginx/ssl
             - ./docker/certbot/data:/var/www/certbot
+            - ./init-letsencrypt.sh:/var/www/certbot
             # - ./docker/certbot/conf:/etc/letsencrypt
             # - ./docker/certbot/www:/var/www/certbot
             # - ./etc/letsencrypt/live/backend.arifinportfolio.my.id:/etc/letsencrypt
