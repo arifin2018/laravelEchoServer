@@ -28,7 +28,6 @@ services:
             - app-network
         links:
             - php-fpm
-            - certbot
 
     certbot:
         image: certbot/certbot
