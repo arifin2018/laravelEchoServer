@@ -34,7 +34,7 @@ services:
             - ./docker/certbot/lib:/var/lib/letsencrypt
             - ./docker/certbot/data:/var/www/certbot
         # command: certonly --webroot --webroot-path=/var/www/html --email arifin@lenna.ai --agree-tos -d backend.arifinportfolio.my.id
-        command: certonly --webserver --webserver-path=/var/www/certbot --email arifin@lenna.ai --agree-tos --no-eff-email -d backend.arifinportfolio.my.id
+        command: certonly --webserver --webroot --webroot-path=/var/www/certbot --email arifin@lenna.ai --agree-tos --no-eff-email -d backend.arifinportfolio.my.id
         depends_on:
             - webserver
         networks:
