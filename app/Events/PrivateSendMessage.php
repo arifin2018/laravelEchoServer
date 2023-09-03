@@ -37,7 +37,7 @@ class PrivateSendMessage implements ShouldBroadcast
     public function broadcastOn(): array
     {
         return [
-            new PrivateChannel('messageChat-'.$this->dataMessage['receiver_id']),
+            new PrivateChannel('messageChat-'.$this->dataMessage['sender_id']),
         ];
     }
 }
