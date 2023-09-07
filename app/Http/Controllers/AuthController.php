@@ -26,8 +26,9 @@ class AuthController extends Controller
         ],201);
     }
 
-    public function logout():array {
-        return [];
+    public function logout():JsonResponse {
+        auth()->logout();
+        return response()->json(['message' => 'Successfully logged out']);
     }
 
     /**
