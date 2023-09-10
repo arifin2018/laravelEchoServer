@@ -40,8 +40,6 @@ services:
         build:
             context: .
             dockerfile: Dockerfile
-        # depends_on:
-        #     - cache
         volumes:
             - .:/var/www/laravel_docker
             - ./docker/php/8.2/php.ini:/usr/local/etc/php/php.ini-production
@@ -69,6 +67,16 @@ services:
         volumes:
             - ./docker/cache:/data
         command: redis-server --save 20 1 --loglevel warning --requirepass password
+        networks:
+            - app-network
+
+    supervisor:
+        container_name: supervisor
+        build:
+            context: . # Direktori tempat Dockerfile Supervisor berada
+            dockerfile: supervisor.Dockerfile # Nama Dockerfile Supervisor yang berbeda
+        volumes:
+            - .:/var/www/laravel_docker
         networks:
             - app-network
 

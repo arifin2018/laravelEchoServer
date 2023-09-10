@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Events\Message;
 use App\Events\PrivateSendMessage;
 use App\Events\SendMessage;
+use App\Jobs\MessageJob;
 use App\Models\Chat;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -36,11 +37,11 @@ class ChatController extends Controller
             'receiver_id'=>$user->id,
             'message'=>$request->message
         ];
+        MessageJob::dispatch($dataMessage)->onQueue('message');
+        // Chat::create($dataMessage);
+        // broadcast(new PrivateSendMessage($dataMessage));
 
-        Chat::create($dataMessage);
-        broadcast(new PrivateSendMessage($dataMessage));
         // broadcast(new Message('arifin'));
-        // event(new SendMessage($dataMessage));
         // event(new SendMessage($dataMessage));
 
         return response()->json([

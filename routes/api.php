@@ -4,9 +4,12 @@ use App\Events\Message;
 use App\Events\SendMessage;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ChatController;
+use App\Jobs\MessageJob;
+use App\Models\Chat;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Broadcast;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -37,6 +40,15 @@ Route::group(['middleware' => 'auth:api'],function(){
     Route::get('/chat/{user:id}',[ChatController::class, 'index']);
 });
 
-Route::prefix('auth',function(){
-    Route::post('logout',[AuthController::class, 'logout'])->name('auth.logout');
+Route::prefix('/auth')->group(function(){
+    Route::post('/logout',[AuthController::class, 'logout'])->name('auth.logout');
+});
+
+Route::get('/arifin',function(){
+    try {
+        Chat::create(null);
+    } catch (\Throwable $e) {
+        Log::info($e->getMessage());
+    }
+    // MessageJob::dispatch(Log::info("arifin"))->onQueue('message');
 });
