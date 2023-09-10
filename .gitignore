@@ -20,6 +20,6 @@ yarn-error.log
 
 docker/cache
 ***/docker/postgres_data/***
-docker/supervisor
+# docker/supervisor
 docker/dockerfile
 
