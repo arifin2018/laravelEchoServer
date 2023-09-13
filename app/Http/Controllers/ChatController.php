@@ -29,8 +29,11 @@ class ChatController extends Controller
     }
 
     public function store(Request $request, User $user) {
+        if ($request->file('image') != null) {
+            $request['message'] = $this->reqImage($request)['message'];
+        }
         $request->validate([
-            'message' => 'required'
+            'message' => 'required',
         ]);
         $dataMessage = [
             'sender_id'=>Auth::user()->id,
@@ -38,15 +41,34 @@ class ChatController extends Controller
             'message'=>$request->message
         ];
         MessageJob::dispatch($dataMessage)->onQueue('message');
-        // Chat::create($dataMessage);
-        // broadcast(new PrivateSendMessage($dataMessage));
-
-        // broadcast(new Message('arifin'));
-        // event(new SendMessage($dataMessage));
 
         return response()->json([
             'message'=>'success send message'
-        ],200   );
+        ],200);
+    }
+
+    public function reqImage(Request $request):array {
+        $image = $request->file('image');
+        $local_storage_path = 'Chat/';
+        $name = $image->getClientOriginalName();
+        $localfolder = public_path('firebase-temp-uploads') .'/';
+        $extension = $image->getClientOriginalExtension();
+        $file      = $name. '.' . $extension;
+        $Imove = $image->move($localfolder, $file);
+        if ($Imove) {
+            $uploadedfile = fopen($localfolder.$file, 'r');
+            app('firebase.storage')->getBucket()->upload($uploadedfile, ['name' => $local_storage_path . $name]);
+            unlink($localfolder . $file);
+            return [
+                'result'=>true,
+                'message'=>$local_storage_path . $name
+            ];
+        } else {
+            return [
+                'result'=>false,
+                'message'=>$local_storage_path . $name
+            ];
+        }
     }
 
 }

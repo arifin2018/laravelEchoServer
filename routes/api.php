@@ -8,6 +8,7 @@ use App\Jobs\MessageJob;
 use App\Models\Chat;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Broadcast;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
@@ -44,11 +45,9 @@ Route::prefix('/auth')->group(function(){
     Route::post('/logout',[AuthController::class, 'logout'])->name('auth.logout');
 });
 
-Route::get('/arifin',function(){
-    try {
-        Chat::create(null);
-    } catch (\Throwable $e) {
-        Log::info($e->getMessage());
-    }
-    // MessageJob::dispatch(Log::info("arifin"))->onQueue('message');
+Route::post('/arifin',function(Request $request){
+    $expiresAt = new \DateTime('+3 months');
+    $imageReference = app('firebase.storage')->getBucket()->object("Chat/FF2-rework.jpeg");
+    $image = $imageReference->signedUrl($expiresAt);
+    return $image;
 });

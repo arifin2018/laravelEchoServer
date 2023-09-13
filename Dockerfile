@@ -27,14 +27,21 @@ RUN set -eux; \
         libonig-dev; \
         rm -rf /var/lib/apt/lists/*
 
+# RUN apt-get install -y php-dev
+RUN apt-get install autoconf
+# RUN apt-get install php-pear
+
 # RUN mkdir -p "/etc/supervisor/logs"
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
+RUN pecl install grpc
+
+
 RUN docker-php-ext-install \
         gd pdo pdo_pgsql pdo_mysql zip sockets\
     && docker-php-ext-enable \
-        gd pdo pdo_pgsql pdo_mysql zip sockets
+        gd pdo pdo_pgsql pdo_mysql zip sockets grpc
 
 RUN usermod -u 1000 www-data
 RUN rm -rf /var/cache/apk/*
