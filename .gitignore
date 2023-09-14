@@ -22,4 +22,5 @@ docker/cache
 ***/docker/postgres_data/***
 # docker/supervisor
 docker/dockerfile
+docker/postgres_data
 

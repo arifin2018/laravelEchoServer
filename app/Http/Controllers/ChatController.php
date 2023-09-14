@@ -31,14 +31,17 @@ class ChatController extends Controller
     public function store(Request $request, User $user) {
         if ($request->file('image') != null) {
             $request['message'] = $this->reqImage($request)['message'];
+            $request['type'] = 'image';
         }
         $request->validate([
             'message' => 'required',
+            'type' => 'required',
         ]);
         $dataMessage = [
             'sender_id'=>Auth::user()->id,
             'receiver_id'=>$user->id,
-            'message'=>$request->message
+            'message'=>$request->message,
+            'type'=>$request->type
         ];
         MessageJob::dispatch($dataMessage)->onQueue('message');
 
