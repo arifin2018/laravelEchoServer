@@ -37,11 +37,10 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 
 RUN pecl install grpc
 
-
 RUN docker-php-ext-install \
-        gd pdo pdo_pgsql pdo_mysql zip sockets\
+        gd pdo pdo_pgsql pdo_mysql zip sockets bcmath opcache\
     && docker-php-ext-enable \
-        gd pdo pdo_pgsql pdo_mysql zip sockets grpc
+        gd pdo pdo_pgsql pdo_mysql zip sockets grpc bcmath opcache
 
 RUN usermod -u 1000 www-data
 RUN rm -rf /var/cache/apk/*

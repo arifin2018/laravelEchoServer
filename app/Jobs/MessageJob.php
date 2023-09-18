@@ -48,7 +48,7 @@ class MessageJob implements ShouldQueue
 
     public function failed(): void {
         Log::info('failed');
-        MessageJob::dispatch(Log::info("arifin fail"))->onQueue('message_fail');
+        MessageJob::dispatch($this->dataMessage)->onQueue('message_fail');
     }
 
     public function retryUntil(): DateTime
