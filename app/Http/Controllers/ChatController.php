@@ -10,7 +10,7 @@ use App\Models\Chat;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Redis;
+use Illuminate\Support\Str;
 
 class ChatController extends Controller
 {
@@ -57,24 +57,25 @@ class ChatController extends Controller
     public function reqImage(Request $request):array {
         $image = $request->file('message');
         $local_storage_path = 'Chat/';
-        $name = $image->getClientOriginalName();
+        $name = rand(0, 999).'-'.pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME) . '-' .Str::random(4);
+
         $localfolder = public_path('firebase-temp-uploads') .'/';
         $extension = $image->getClientOriginalExtension();
         $file = $name. '.' . $extension;
         $Imove = $image->move($localfolder, $file);
         if ($Imove) {
             $uploadedfile = fopen($localfolder.$file, 'r');
-            app('firebase.storage')->getBucket()->upload($uploadedfile, ['name' => $local_storage_path . $name]);
+            app('firebase.storage')->getBucket()->upload($uploadedfile, ['name' => $local_storage_path . $file]);
             unlink($localfolder . $file);
-            $this->image = $local_storage_path . $name;
+            $this->image = $local_storage_path . $file;
             return [
                 'result'=>true,
-                'message'=>$local_storage_path . $name
+                'message'=>$local_storage_path . $file
             ];
         } else {
             return [
                 'result'=>false,
-                'message'=>$local_storage_path . $name
+                'message'=>$local_storage_path . $file
             ];
         }
     }
