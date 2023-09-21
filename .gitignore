@@ -19,8 +19,7 @@ yarn-error.log
 /.vscode
 
 docker/cache
-***/docker/postgres_data/***
-# docker/supervisor
+docker/supervisor
 docker/dockerfile
 docker/postgres_data
-
+/docker/postgres_data
