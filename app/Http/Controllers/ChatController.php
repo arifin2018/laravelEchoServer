@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\Redis;
 
 class ChatController extends Controller
 {
+    private $image = '';
+
     public function index(Request $request, User $user) {
         $chat = Chat::where([
             ['receiver_id' ,'=',$user->id],
@@ -29,19 +31,21 @@ class ChatController extends Controller
     }
 
     public function store(Request $request, User $user) {
-        if ($request->file('image') != null) {
-            $request['message'] = $this->reqImage($request)['message'];
-            $request['type'] = 'image';
-        }
         $request->validate([
             'message' => 'required',
             'type' => 'required',
         ]);
+        $resultRequest = $request->all();
+        if ($request->file('message') != null) {
+            $resultRequest['message'] = $this->reqImage($request)['message'];
+            $request['type'] = 'image';
+        }
+
         $dataMessage = [
             'sender_id'=>Auth::user()->id,
             'receiver_id'=>$user->id,
-            'message'=>$request->message,
-            'type'=>$request->type
+            'message'=>$resultRequest['message'],
+            'type'=>$resultRequest['type']
         ];
         MessageJob::dispatch($dataMessage)->onQueue('message');
 
@@ -51,17 +55,18 @@ class ChatController extends Controller
     }
 
     public function reqImage(Request $request):array {
-        $image = $request->file('image');
+        $image = $request->file('message');
         $local_storage_path = 'Chat/';
         $name = $image->getClientOriginalName();
         $localfolder = public_path('firebase-temp-uploads') .'/';
         $extension = $image->getClientOriginalExtension();
-        $file      = $name. '.' . $extension;
+        $file = $name. '.' . $extension;
         $Imove = $image->move($localfolder, $file);
         if ($Imove) {
             $uploadedfile = fopen($localfolder.$file, 'r');
             app('firebase.storage')->getBucket()->upload($uploadedfile, ['name' => $local_storage_path . $name]);
             unlink($localfolder . $file);
+            $this->image = $local_storage_path . $name;
             return [
                 'result'=>true,
                 'message'=>$local_storage_path . $name
