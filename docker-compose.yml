@@ -22,7 +22,7 @@ services:
             - php-fpm
 
     database:
-        image: postgres
+        image: postgres:14-alpine
         container_name: database
         restart: unless-stopped
         environment:
@@ -34,6 +34,8 @@ services:
             - "54320:5432"
         networks:
             - app-network
+        healthcheck:
+            test: ["CMD", "pg_isready", "-U", "ckan"]
 
     php-fpm:
         container_name: php-fpm
@@ -43,6 +45,8 @@ services:
         volumes:
             - .:/var/www/laravel_docker
             - ./docker/php/8.2/php.ini:/usr/local/etc/php/php.ini-production
+            - ./docker/php/8.2/php.ini:/usr/local/etc/php/php.ini-development
+            - ./docker/php/8.2/php.ini:/usr/local/etc/php/conf.d/fpm.ini
         environment:
             - PHP_DATE_TIMEZONE=Asia/Jakarta
             - PHP_DISPLAY_ERRORS=On

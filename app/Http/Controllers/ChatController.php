@@ -24,6 +24,16 @@ class ChatController extends Controller
             ['receiver_id' ,'=',Auth::user()->id],
             ['sender_id' ,'=',$user->id]
         ])->get();
+        foreach ($chat as $key => $value) {
+            if ($value->type == 'image') {
+                $expiresAt = new \DateTime('+3 months');
+                $imageReference = app('firebase.storage')->getBucket()->object($value->message);
+                $image = $imageReference->signedUrl($expiresAt);
+                $value['message'] = $image;
+            }else{
+                $value['message'] = $value->message;
+            }
+        }
         return response()->json([
             'user'=>$user,
             'message'=> $chat
@@ -35,6 +45,7 @@ class ChatController extends Controller
             'message' => 'required',
             'type' => 'required',
         ]);
+        dd('a');
         $resultRequest = $request->all();
         if ($request->file('message') != null) {
             $resultRequest['message'] = $this->reqImage($request)['message'];

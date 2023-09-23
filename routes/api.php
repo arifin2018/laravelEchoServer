@@ -47,7 +47,7 @@ Route::prefix('/auth')->group(function(){
 
 Route::post('/arifin',function(Request $request){
     $expiresAt = new \DateTime('+3 months');
-    $imageReference = app('firebase.storage')->getBucket()->object("Chat/FF2-rework.jpeg");
+    $imageReference = app('firebase.storage')->getBucket()->object("Chat/154-playstation-black-logo-video-games-wallpaper-preview-eKFG.jpeg");
     $image = $imageReference->signedUrl($expiresAt);
     return $image;
 });
