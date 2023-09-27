@@ -81,7 +81,7 @@ services:
             context: . # Direktori tempat Dockerfile Supervisor berada
             dockerfile: supervisor.Dockerfile # Nama Dockerfile Supervisor yang berbeda
         volumes:
-            - ./docker/supervisor:/etc/supervisor/supervisord.conf
+            - ./docker/supervisor:/var/www/laravel_docker/supervisor
             - .:/var/www/laravel_docker
         networks:
             - app-network
