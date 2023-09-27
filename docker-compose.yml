@@ -90,8 +90,8 @@ services:
         container_name: rabbitmq
         image: rabbitmq:3-management-alpine
         ports:
-            - 56720:5672
-            - 156720:15672
+            - 5679:5672
+            - 15679:15672
         volumes:
             - ./docker/rabbitmq/data:/var/lib/rabbitmq/
             - ./docker/rabbitmq/log:/var/log/rabbitmq/
