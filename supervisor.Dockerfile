@@ -1,5 +1,7 @@
 FROM php:8.2-fpm-alpine
 
+WORKDIR /var/www/laravel_docker
+
 RUN mkdir -p /var/log/supervisor/
 
 RUN apk --no-cache add postgresql-dev
