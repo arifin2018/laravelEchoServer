@@ -62,6 +62,7 @@ services:
         links:
             - database
             - cache
+            - rabbitmq
 
     cache:
         image: redis:6.2-alpine
@@ -80,7 +81,24 @@ services:
             context: . # Direktori tempat Dockerfile Supervisor berada
             dockerfile: supervisor.Dockerfile # Nama Dockerfile Supervisor yang berbeda
         volumes:
+            - ./docker/supervisor:/var/www/laravel_docker
             - .:/var/www/laravel_docker
+        networks:
+            - app-network
+
+    rabbitmq:
+        container_name: rabbitmq
+        image: rabbitmq:3-management-alpine
+        ports:
+            - 5672:5672
+            - 15672:15672
+        volumes:
+            - ./docker/rabbitmq/data:/var/lib/rabbitmq/
+            - ./docker/rabbitmq/log:/var/log/rabbitmq/
+        environment:
+            - RABBITMQ_DEFAULT_USER=admin
+            - RABBITMQ_DEFAULT_PASS=password
+            - RABBITMQ_DEFAULT_VHOST=/
         networks:
             - app-network
 
