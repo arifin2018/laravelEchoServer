@@ -89,6 +89,8 @@ services:
     rabbitmq:
         container_name: rabbitmq
         image: rabbitmq:3-management-alpine
+        hostname: rabbitmq
+        restart: unless-stopped
         ports:
             - 5679:5672
             - 15679:15672
