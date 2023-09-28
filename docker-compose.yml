@@ -66,6 +66,7 @@ services:
 
     cache:
         image: redis:6.2-alpine
+        container_name: cache
         restart: unless-stopped
         ports:
             - "63791:6379"
@@ -83,6 +84,8 @@ services:
         volumes:
             - ./docker/supervisor:/etc/supervisor/conf.d/
             - .:/var/www/laravel_docker
+        links:
+            - php-fpm
         networks:
             - app-network
 
@@ -101,6 +104,25 @@ services:
             - RABBITMQ_DEFAULT_USER=admin
             - RABBITMQ_DEFAULT_PASS=password
             - RABBITMQ_DEFAULT_VHOST=/
+        networks:
+            - app-network
+
+    laravel-echo-server:
+        container_name: laravel-echo-server
+        restart: always
+        image: oanhnn/laravel-echo-server
+        ports:
+            - 6011:6001
+        volumes:
+            - ./docker/laravel_echo_server:/app
+        environment:
+            - LARAVEL_ECHO_SERVER_REDIS_HOST=cache
+            - LARAVEL_ECHO_SERVER_REDIS_PORT=6379
+            - LARAVEL_ECHO_SERVER_REDIS_PASSWORD=password
+        links:
+            - cache
+            - php-fpm
+            - webserver
         networks:
             - app-network
 

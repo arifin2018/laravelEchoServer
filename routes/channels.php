@@ -18,7 +18,13 @@ Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
     return (int) $user->id === (int) $id;
 });
 
-Broadcast::channel('messageChat-{id}', function ($id) {
-    Log::info($id);
+Broadcast::channel('messageChat-{id}', function ($user,$id) {
+    Log::info(json_encode($user));
+    Log::info(json_encode($id));
     return true;
 });
+// Broadcast::channel('messageChat-12', function ($user,$id) {
+//     Log::info(json_encode($user));
+//     Log::info(json_encode($id));
+//     return true;
+// });

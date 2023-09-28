@@ -29,6 +29,6 @@ class RequestLoggerMiddleware
             'REQUEST_BODY' => $request->all(),
             'RESPONSE' => $response->getContent()
         ];
-        Log::info(json_encode($log));
+        // Log::info(json_encode($log));
     }
 }
