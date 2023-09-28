@@ -112,7 +112,7 @@ services:
         restart: always
         image: oanhnn/laravel-echo-server
         ports:
-            - 6011:8443
+            - 6011:6001
         volumes:
             - ./docker/laravel_echo_server:/app
         environment:
