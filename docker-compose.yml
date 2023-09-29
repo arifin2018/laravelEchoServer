@@ -18,6 +18,8 @@ services:
             - ./init-letsencrypt.sh:/var/www/certbot
         networks:
             - app-network
+        extra_hosts:
+            - "host.docker.internal:host-gateway"
         links:
             - php-fpm
 
