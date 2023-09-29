@@ -19,9 +19,9 @@
         }
     },
     "devMode": true,
-    "host": "socket.arifinportfolio.my.id",
+    "host": null,
     "port": "6001",
-    "protocol": "https",
+    "protocol": "http",
     "socketio": {},
     "secureOptions": 67108864,
     "sslCertPath": "",
