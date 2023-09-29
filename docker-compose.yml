@@ -8,6 +8,7 @@ services:
         tty: true
         ports:
             - "8012:80"
+            - "6002:6002"
             - "4431:443"
         volumes:
             - ./:/var/www/laravel_docker
