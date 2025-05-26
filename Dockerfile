@@ -32,12 +32,13 @@ RUN apt-get install autoconf
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-RUN pecl install grpc
+# RUN pecl install grpc
 
 RUN docker-php-ext-install \
         gd pdo pdo_pgsql pdo_mysql zip sockets bcmath opcache\
     && docker-php-ext-enable \
-        gd pdo pdo_pgsql pdo_mysql zip sockets grpc bcmath opcache
+        # gd pdo pdo_pgsql pdo_mysql zip sockets grpc bcmath opcache
+        gd pdo pdo_pgsql pdo_mysql zip sockets bcmath opcache
 
 RUN usermod -u 1000 www-data
 RUN rm -rf /var/cache/apk/*
